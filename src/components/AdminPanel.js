@@ -11,8 +11,17 @@ const AdminPanel = ({ products, setProducts }) => {
   };
 
   const handleAdd = () => {
-    const id = products.length ? products[products.length - 1].id + 1 : 1;
-    setProducts([...products, { id, ...newProduct }]);
+    if (!newProduct.name || !newProduct.price || !newProduct.description || !newProduct.image) {
+      alert("Please fill all fields");
+      return;
+    }
+    
+    const id = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1;
+    setProducts([...products, { 
+      id, 
+      ...newProduct, 
+      price: parseFloat(newProduct.price) 
+    }]);
     setNewProduct({ name: "", price: "", description: "", image: "" });
   };
 
@@ -32,29 +41,91 @@ const AdminPanel = ({ products, setProducts }) => {
       <input name="name" placeholder="Name" value={newProduct.name} onChange={handleChange} className="form-control"/>
       <input name="description" placeholder="Description" value={newProduct.description} onChange={handleChange} className="form-control"/>
       <input name="image" placeholder="Image URL" value={newProduct.image} onChange={handleChange} className="form-control"/>
-      <input name="price" placeholder="Price" value={newProduct.price} onChange={handleChange} className="form-control"/>
-      <button onClick={handleAdd}>Add</button>
+      <input name="price" type="number" placeholder="Price" value={newProduct.price} onChange={handleChange} className="form-control"/>
+      <button onClick={handleAdd}>Add Product</button>
 
       <h2>Existing Products</h2>
-      <div className="row">
-        {products.map(p => (
-          <div className="col-12" key={p.id}>
-            <div>
-              <a href="#">
-                <div className="row">
-                  <div>{p.name}</div>
-                  <div>${p.price}</div>
-                </div>
-              </a>
-              <button className="float-right" onClick={() => handleDelete(p.id)}>Delete</button>
-              <button className="float-right" onClick={() => {
-                const newPrice = prompt("Enter new price:", p.price);
-                if (newPrice) handleEdit(p.id, "price", newPrice);
-              }}>Edit</button>
+      <div className="product-list">
+        {products.map(product => (
+          <div className="product-item" key={product.id}>
+            <div className="product-info">
+              <img src={product.image} alt={product.name} width="50" />
+              <div className="product-details">
+                <strong>{product.name}</strong>
+                <span>${product.price}</span>
+              </div>
+            </div>
+            <div className="product-actions">
+              <button 
+                onClick={() => {
+                  const newPrice = prompt("Enter new price:", product.price);
+                  if (newPrice && !isNaN(newPrice)) {
+                    handleEdit(product.id, "price", parseFloat(newPrice));
+                  }
+                }}
+              >
+                Edit Price
+              </button>
+              <button 
+                className="delete-btn"
+                onClick={() => handleDelete(product.id)}
+              >
+                Delete
+              </button>
             </div>
           </div>
         ))}
       </div>
+
+      <style jsx>{`
+        .container {
+          padding: 20px;
+        }
+        .form-control {
+          display: block;
+          margin: 10px 0;
+          padding: 8px;
+          width: 100%;
+          max-width: 300px;
+        }
+        button {
+          margin: 5px;
+          padding: 8px 16px;
+          cursor: pointer;
+        }
+        .delete-btn {
+          background: #ff4444;
+          color: white;
+          border: none;
+        }
+        .product-list {
+          margin-top: 20px;
+        }
+        .product-item {
+          display: flex;
+          justify-content: between;
+          align-items: center;
+          padding: 10px;
+          border: 1px solid #ddd;
+          margin: 10px 0;
+          border-radius: 4px;
+        }
+        .product-info {
+          display: flex;
+          align-items: center;
+          flex: 1;
+        }
+        .product-details {
+          margin-left: 15px;
+        }
+        .product-details strong {
+          display: block;
+        }
+        .product-actions {
+          display: flex;
+          gap: 10px;
+        }
+      `}</style>
     </div>
   );
 };
