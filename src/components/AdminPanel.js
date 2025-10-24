@@ -25,8 +25,9 @@ const AdminPanel = ({ products, setProducts }) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Admin Panel</h1>
+
       <h2>Add Product</h2>
       <input name="name" placeholder="Name" value={newProduct.name} onChange={handleChange} className="form-control"/>
       <input name="description" placeholder="Description" value={newProduct.description} onChange={handleChange} className="form-control"/>
@@ -35,18 +36,25 @@ const AdminPanel = ({ products, setProducts }) => {
       <button onClick={handleAdd}>Add</button>
 
       <h2>Existing Products</h2>
-      <ul>
+      <div className="row">
         {products.map(p => (
-          <li key={p.id}>
-            {p.name} - ${p.price} 
-            <button className="float-right" onClick={() => handleDelete(p.id)}>Delete</button>
-            <button className="float-right" onClick={() => {
-              const newPrice = prompt("Enter new price:", p.price);
-              if (newPrice) handleEdit(p.id, "price", newPrice);
-            }}>Edit</button>
-          </li>
+          <div className="col-12" key={p.id}>
+            <div>
+              <a href="#">
+                <div className="row">
+                  <div>{p.name}</div>
+                  <div>${p.price}</div>
+                </div>
+              </a>
+              <button className="float-right" onClick={() => handleDelete(p.id)}>Delete</button>
+              <button className="float-right" onClick={() => {
+                const newPrice = prompt("Enter new price:", p.price);
+                if (newPrice) handleEdit(p.id, "price", newPrice);
+              }}>Edit</button>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
