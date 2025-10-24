@@ -11,11 +11,18 @@ const App = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const data = [
-        { id: 1, name: "iPhone 14", price: 999, description: "Apple smartphone", image: "https://via.placeholder.com/150" },
-        { id: 2, name: "Samsung Galaxy S23", price: 899, description: "Samsung smartphone", image: "https://via.placeholder.com/150" },
-        
-      ];
+   const data = [
+  { id: 1, name: "iPhone 14", price: 999, description: "Apple smartphone", image: "https://picsum.photos/id/1011/150" },
+  { id: 2, name: "Samsung Galaxy S23", price: 899, description: "Samsung smartphone", image: "https://picsum.photos/id/1012/150" },
+  { id: 3, name: "Pixel 7", price: 799, description: "Google smartphone", image: "https://picsum.photos/id/1013/150" },
+  { id: 4, name: "OnePlus 11", price: 699, description: "OnePlus smartphone", image: "https://picsum.photos/id/1014/150" },
+  { id: 5, name: "Xiaomi 13", price: 599, description: "Xiaomi smartphone", image: "https://picsum.photos/id/1015/150" },
+  { id: 6, name: "Oppo Find X6", price: 649, description: "Oppo smartphone", image: "https://picsum.photos/id/1016/150" },
+  { id: 7, name: "Vivo X90", price: 579, description: "Vivo smartphone", image: "https://picsum.photos/id/1017/150" },
+  { id: 8, name: "Motorola Edge", price: 499, description: "Motorola smartphone", image: "https://picsum.photos/id/1018/150" },
+];
+
+
       setProducts(data);
     };
     fetchProducts();
